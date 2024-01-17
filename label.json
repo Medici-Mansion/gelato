@@ -1,0 +1,27 @@
+[
+  {
+    "name" : "✅ 완료",
+    "color" :"2F1074",
+    "description":""
+  },
+  {
+    "name" : "🎨 [CLIENT]",
+    "color" :"027EAA",
+    "description":""
+  },
+  {
+    "name" : "💡 수정요청",
+    "color" :"FBCA04",
+    "description":""
+  },
+  {
+    "name" : "🔍 QA",
+    "color" :"B5FADA",
+    "description":""
+  },
+  {
+    "name" : "💻 [SERVER]",
+    "color" :"07BA77",
+    "description":""
+  }
+]
