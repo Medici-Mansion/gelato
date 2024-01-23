@@ -3,6 +3,7 @@ package message
 import (
 	"gelato/main/alarm"
 	customtime "gelato/main/time"
+	"gelato/main/voice"
 	"github.com/bwmarrin/discordgo"
 	"strings"
 )
@@ -15,11 +16,16 @@ func Create(s *discordgo.Session, m *discordgo.MessageCreate) {
 	cmd := strings.Split(m.Content, " ")
 
 	if m.Content == "!i" {
-		helpMessage := "**명령어 사용 방법**\n" +
+		helpMessage := "### Gelato 사용 방법\n" +
 			"```\n" +
-			"!i: 젤라또의 사용 방법.\n" +
-			"!h on/off: 젤라또가 감시를 시작/종료합니다.\n" +
-			"!a 숫자: 입력한 숫자분 뒤 알람을 울립니다.\n" +
+			"!i\n" +
+			"- 젤라또의 사용 방법에 대해서 알려줍니다.\n\n" +
+			"!h on/off\n" +
+			"- 젤라또가 오전 2시 감시를 시작/종료합니다.\n\n" +
+			"!a 숫자\n" +
+			"- 입력한 숫자만큼의 시간(분) 뒤에 메시지를 보내줍니다.\n\n" +
+			"!t\n" +
+			"- 현재 시각을 알려줍니다.\n\n" +
 			"```"
 
 		_, _ = s.ChannelMessageSend(m.ChannelID, helpMessage)
@@ -57,5 +63,9 @@ func Create(s *discordgo.Session, m *discordgo.MessageCreate) {
 			alarm.Quit = nil
 			alarm.IsHeraldOn = false
 		}
+	}
+
+	if len(cmd) > 1 && cmd[0] == "!m" {
+		voice.Invite(s, m)
 	}
 }
