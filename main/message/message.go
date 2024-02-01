@@ -4,6 +4,7 @@ import (
 	"gelato/main/alarm"
 	customtime "gelato/main/time"
 	"gelato/main/voice"
+	"gelato/main/vote"
 	"github.com/bwmarrin/discordgo"
 	"strings"
 )
@@ -16,18 +17,7 @@ func Create(s *discordgo.Session, m *discordgo.MessageCreate) {
 	cmd := strings.Split(m.Content, " ")
 
 	if m.Content == "!i" {
-		helpMessage := "### Gelato 사용 방법\n" +
-			"```\n" +
-			"!i\n" +
-			"- 젤라또의 사용 방법에 대해서 알려줍니다.\n\n" +
-			"!h on/off\n" +
-			"- 젤라또가 오전 2시 감시를 시작/종료합니다.\n\n" +
-			"!a 숫자\n" +
-			"- 입력한 숫자만큼의 시간(분) 뒤에 메시지를 보내줍니다.\n\n" +
-			"!t\n" +
-			"- 현재 시각을 알려줍니다.\n\n" +
-			"```"
-
+		helpMessage := infoTemplate()
 		_, _ = s.ChannelMessageSend(m.ChannelID, helpMessage)
 	}
 
@@ -65,7 +55,27 @@ func Create(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 	}
 
+	if len(cmd) > 1 && cmd[0] == "!v" {
+		options := cmd[1:]
+
+		vote.StartVote(s, m.ChannelID, options)
+	}
+
 	if len(cmd) > 1 && cmd[0] == "!m" {
 		voice.Invite(s, m)
 	}
+}
+
+func infoTemplate() string {
+	return "### Gelato 사용 방법\n" +
+		"```\n" +
+		"!i\n" +
+		"- 젤라또의 사용 방법에 대해서 알려줍니다.\n\n" +
+		"!h on/off\n" +
+		"- 젤라또가 오전 2시 감시를 시작/종료합니다.\n\n" +
+		"!a 숫자\n" +
+		"- 입력한 숫자만큼의 시간(분) 뒤에 메시지를 보내줍니다.\n\n" +
+		"!t\n" +
+		"- 현재 시각을 알려줍니다.\n\n" +
+		"```"
 }
